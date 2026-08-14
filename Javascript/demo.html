@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Products</title>
+<style>
+    body {
+        margin: 0;
+        padding: 30px;
+        font-family: Arial, sans-serif;
+        background: #f4f6f8;
+        color: #222;
+    }
+
+    h1 {
+        text-align: center;
+        margin-bottom: 30px;
+        color: #222;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: separate;
+        border-spacing: 0;
+        background: white;
+        border-radius: 12px;
+        overflow: hidden;
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+    }
+
+    th {
+        background: #212529;
+        color: white;
+        padding: 15px 12px;
+        text-align: center;
+        font-size: 15px;
+    }
+
+    td {
+        padding: 12px;
+        text-align: center;
+        border-bottom: 1px solid #eee;
+        font-size: 14px;
+    }
+
+    tbody tr {
+        transition: 0.2s ease;
+    }
+
+    tbody tr:hover {
+        background: #f8f9fa;
+        transform: scale(1.002);
+    }
+
+    tbody tr:last-child td {
+        border-bottom: none;
+    }
+
+    td img {
+        width: 80px;
+        height: 80px;
+        object-fit: cover;
+        border-radius: 8px;
+        border: 1px solid #ddd;
+    }
+
+    td:nth-child(2) {
+        font-weight: 600;
+        color: #333;
+        text-align: left;
+    }
+
+    td:nth-child(4) {
+        text-transform: capitalize;
+        color: #555;
+    }
+
+    td:nth-child(5) {
+        font-weight: 600;
+        color: #d63384;
+    }
+
+    td:nth-child(6) {
+        font-weight: 600;
+        color: #198754;
+    }
+
+    td:nth-child(7) {
+        font-weight: 600;
+    }
+
+    button {
+        border: none;
+        padding: 9px 14px;
+        border-radius: 6px;
+        background: #0d6efd;
+        color: white;
+        font-size: 14px;
+        cursor: pointer;
+        transition: 0.2s ease;
+    }
+
+    button:hover {
+        background: #0b5ed7;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 10px rgba(13, 110, 253, 0.25);
+    }
+
+   
+</style>
+    <script>
+        const URL = 'https://dummyjson.com/products?limit=100';
+        const RATE_URL = 'https://open.er-api.com/v6/latest/USD';
+
+        let inrRate = null;
+
+        async function loadProducts() {
+            try {
+                
+                const [productRes, rateRes] = await Promise.all([
+                    fetch(URL),
+                    fetch(RATE_URL)
+                ]);
+
+                const data = await productRes.json();
+                const rateData = await rateRes.json();
+
+                inrRate = rateData.rates.INR;
+
+                let rows = '';
+
+                data.products.forEach((product, index) => {
+                    const inrPrice = (product.price * inrRate).toFixed(2);
+
+                    rows += `
+                        <tr>
+                            <td>${index + 1}</td>
+                            <td>${product.title}</td>
+                            <td>
+                                <img src="${product.thumbnail}" 
+                                     width="80" 
+                                     height="80">
+                            </td>
+                            <td>${product.category}</td>
+                            <td>$${product.price}</td>
+                            <td>₹${inrPrice}</td>
+                            <td>${product.stock}</td>
+                            <td>
+                                <button onclick="addToCart(${product.id})">Add to Cart</button></td>
+                            
+                        </tr>
+                    `;
+                });
+
+                document.getElementById("productList").innerHTML = rows;
+
+            } catch (error) {
+                console.log(error);
+            }
+        }
+
+        loadProducts();
+    </script>
+</head>
+
+<body>
+
+    <h1 style="text-align: center;">List of Products</h1>
+   <button style="margin-bottom: 20px; background-color: #198754;" onclick="window.location.href='cart.html'">Go to Cart</button>
+
+    <table border="1" cellpadding="10" cellspacing="0">
+        <thead>
+            <tr align="center">
+                <th>Sr. No</th>
+                <th>Title</th>
+                <th>Image</th>
+                <th>Category</th>
+                <th>Price (USD)</th>
+                <th>Price (INR)</th>
+                <th>Stock</th>
+                <th>Cart</th>
+            </tr>
+        </thead>
+
+        <tbody id="productList">
+        </tbody>
+    </table>
+  
+</body>
+</html>
