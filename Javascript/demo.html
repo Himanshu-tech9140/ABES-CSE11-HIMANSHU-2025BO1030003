@@ -107,17 +107,63 @@
         box-shadow: 0 4px 10px rgba(13, 110, 253, 0.25);
     }
 
-   
+    /* Qty stepper styles */
+    .qty-box {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 6px;
+    }
+
+    .qty-box button {
+        width: 26px;
+        height: 26px;
+        padding: 0;
+        font-size: 16px;
+        line-height: 1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: #e9ecef;
+        color: #212529;
+    }
+
+    .qty-box button:hover {
+        background: #dee2e6;
+        transform: none;
+        box-shadow: none;
+    }
+
+    .qty-box span {
+        min-width: 20px;
+        font-weight: 600;
+    }
+
+    .add-btn {
+        background: #198754;
+    }
+
+    .add-btn:hover {
+        background: #157347;
+    }
+
 </style>
     <script>
         const URL = 'https://dummyjson.com/products?limit=100';
         const RATE_URL = 'https://open.er-api.com/v6/latest/USD';
 
         let inrRate = null;
+        let productsData = [];
+
+        // cart stored as { productId: quantity }
+        let cart = JSON.parse(localStorage.getItem('cart')) || {};
+
+        function saveCart() {
+            localStorage.setItem('cart', JSON.stringify(cart));
+        }
 
         async function loadProducts() {
             try {
-                
                 const [productRes, rateRes] = await Promise.all([
                     fetch(URL),
                     fetch(RATE_URL)
@@ -127,11 +173,13 @@
                 const rateData = await rateRes.json();
 
                 inrRate = rateData.rates.INR;
+                productsData = data.products;
 
                 let rows = '';
 
                 data.products.forEach((product, index) => {
                     const inrPrice = (product.price * inrRate).toFixed(2);
+                    const qty = cart[product.id] || 0;
 
                     rows += `
                         <tr>
@@ -146,9 +194,10 @@
                             <td>$${product.price}</td>
                             <td>₹${inrPrice}</td>
                             <td>${product.stock}</td>
-                            <td>
-                                <button onclick="addToCart(${product.id})">Add to Cart</button></td>
-                            
+
+                            <td id="cart-cell-${product.id}">
+                                ${renderCartCell(product.id, qty)}
+                            </td>
                         </tr>
                     `;
                 });
@@ -158,6 +207,47 @@
             } catch (error) {
                 console.log(error);
             }
+        }
+
+        function renderCartCell(id, qty) {
+            if (qty > 0) {
+                return `
+                    <div class="qty-box">
+                        <button onclick="decreaseQty(${id})">-</button>
+                        <span>${qty}</span>
+                        <button onclick="increaseQty(${id})">+</button>
+                    </div>
+                `;
+            }
+            return `<button class="add-btn" onclick="addToCart(${id})">Add to Cart</button>`;
+        }
+
+        function refreshCell(id) {
+            const cell = document.getElementById(`cart-cell-${id}`);
+            const qty = cart[id] || 0;
+            cell.innerHTML = renderCartCell(id, qty);
+        }
+
+        function addToCart(id) {
+            cart[id] = 1;
+            saveCart();
+            refreshCell(id);
+        }
+
+        function increaseQty(id) {
+            cart[id] = (cart[id] || 0) + 1;
+            saveCart();
+            refreshCell(id);
+        }
+
+        function decreaseQty(id) {
+            if (!cart[id]) return;
+            cart[id] -= 1;
+            if (cart[id] <= 0) {
+                delete cart[id];
+            }
+            saveCart();
+            refreshCell(id);
         }
 
         loadProducts();
