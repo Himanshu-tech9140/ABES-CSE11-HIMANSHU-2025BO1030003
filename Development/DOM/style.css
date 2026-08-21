@@ -1,0 +1,12 @@
+div{
+    border: 2px solid black;
+    display: inline-block;
+    height: 200px;
+    width: 200px;
+    margin: 10px;
+    background-color: aqua;
+    box-shadow: 6px 6px 6px grey;
+}
+div:hover{
+    background-color: yellow;
+}
