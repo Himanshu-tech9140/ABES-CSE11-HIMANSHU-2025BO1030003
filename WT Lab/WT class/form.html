@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Job Application Form</h1>
+    <form>
+       <fieldset style="width: 600px; height: 700px; border: 1px solid black;">
+       <legend>Personal Information</legend>
+
+       <label>Full Name:</label><br>
+       <input type="text" name="fullName" required><br><br>
+
+       <label>Email:</label><br>
+       <input type="email" name="email" required><br><br>
+
+       <label>Phone:</label><br>
+       <input type="tel" name="phone" required><br><br>
+
+       <label>Phone Number:</label><br>
+       <input type="tel" name="phoneNumber" required><br><br>
+
+       <label>Date of Birth:</label><br>
+       <input type="date" name="dob" required><br><br>
+
+       <label>Gender:</label><br>
+       <input type="radio" name="gender" value="male" required> Male
+        <input type="radio" name="gender" value="female" required> Female
+         <input type="radio" name="gender" value="female" required> Other<br><br>
+
+         <label>Highest Qualification:</label><br>
+         <select>
+            <option value="highschool">Btech</option>
+            <option value="bachelor">BCA</option> 
+             <option value="bachelor">MCA</option>     
+              <option value="bachelor">BSC</option>         
+
+         </select><br><br>
+
+         <label>Technical Skills:</label><br>
+         <input type="checkbox" name="skills" value="html"> HTML
+         <input type="checkbox" name="skills" value="css"> CSS  
+         <input type="checkbox" name="skills" value="html"> JavaScript
+         <input type="checkbox" name="skills" value="css"> React
+         <br><br>
+         <label>
+            Why should we hire you?
+         </label><br>
+
+            <textarea name="whyHire" rows="4" cols="50"></textarea><br><br>
+
+           <input type="submit" value="Submit">
+           <input type="reset" value="Reset">
+
+
+</fieldset>
+    </form>
+</body>
+</html>
