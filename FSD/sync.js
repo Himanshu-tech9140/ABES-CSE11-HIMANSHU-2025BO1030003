@@ -17,7 +17,7 @@ function getData(){
 function waitfordelay(delay) {
    const start = Date.now()+delay;
    while (Date.now() < start) {
-
+      // busy wait
 }
 }
 register();
