@@ -42,5 +42,5 @@ register()
         console.log("All tasks completed");
     })
     .catch((err) => {
-        console.log(err);
+        console.log("Error:", err);
     });
