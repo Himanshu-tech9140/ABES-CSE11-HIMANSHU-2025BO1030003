@@ -25,3 +25,4 @@ login();
 logout();
 getData();
 console.log("Sync event registered successfully");
+console.log("All async functions called");
