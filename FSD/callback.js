@@ -1,8 +1,10 @@
 function register() {
-    setTimeout(() => {
-        console.log("Registering sync event");
-        reso
-    }, 5000);
+    return new Promise((resolve, reject) => {
+        setTimeout(() => {
+            console.log("Registering sync event");
+            resolve();
+        }, 5000);
+    });
 }
 
 function login() {
