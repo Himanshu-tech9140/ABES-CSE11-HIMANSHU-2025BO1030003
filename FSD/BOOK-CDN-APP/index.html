@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book CDN App</title>
+</head>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #f4f4f4;
+    }
+   
+    #root {
+        padding-left: 40px;
+        display: flex;
+        flex-wrap: wrap;
+    }
+
+    .book {
+        background-color: #fff;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        margin: 10px;
+        padding: 15px;
+        width: 300px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+    button {
+        background-color: #007BFF;
+        color: white;
+        border: none;
+        padding: 10px 15px;
+        border-radius: 5px;
+        cursor: pointer;
+        display:flex;
+        display-content:center;
+    }
+    </style>
+<body>
+    <h1>
+        <center>
+            Book Store
+        </center>
+    </h1>
+    <div id="root"></div>
+    
+</body>
+<script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+<script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+<script src="./index.js"></script>
+
+</html>
